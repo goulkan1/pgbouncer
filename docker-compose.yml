@@ -1,0 +1,37 @@
+version: "3.7"
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: postgres_local
+    environment:
+      POSTGRES_USER: message_router
+      POSTGRES_PASSWORD: message_router
+      POSTGRES_DB: message_router
+      POSTGRES_HOST_AUTH_METHOD: scram-sha-256
+      POSTGRES_INITDB_ARGS=--auth: scram-sha-256
+    ports:
+      - "5432:5432"
+    restart: always
+
+  pgbouncer:
+    image: edoburu/pgbouncer
+    container_name: pgbouncer
+    depends_on:
+      - postgres
+    environment:
+      - DB_USER=message_router
+      - DB_PASSWORD=message_router
+      - DB_HOST=postgres
+      - AUTH_TYPE=scram-sha-256 # remove/comment this line if using postgres:13 and lower
+      - POOL_MODE=transaction
+      - ADMIN_USERS=postgres,dbuser,message_router
+    ports:
+      - "6432:6432"
+    volumes:
+      - ./pgbouncer.ini:/etc/pgbouncer/pgbouncer.ini
+      - ./userlist.txt:/etc/pgbouncer/userlist.txt
+    restart: always
+
+volumes:
+  postgres_data:

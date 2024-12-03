@@ -1,0 +1,1 @@
+"message_router" "SCRAM-SHA-256$4096:M8hXFOi/c4lIvdf1oDXC6Q==$v08kouuCYe9+jVx3LfVRb919atN3JJA1te+nid8f2GQ=:56o037vkR8J9ljpsxA3kqc6JsDmMC1+mhPo6p8zuRgM="
